@@ -1,9 +1,20 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { useState } from "react";
+import React from "react";
+import "./App.css";
+
+declare global {
+  interface Window {
+    Touchpoint: any;
+  }
+}
 
 const App = () => {
   const [data, setData] = useState(undefined);
+  const urlParams = new URLSearchParams(window.location.search);
+  const appID = urlParams.get("app_id");
+  const pod = urlParams.get("pod");
 
   const Init = () => {
     window.Touchpoint.initialize({
@@ -24,8 +35,8 @@ const App = () => {
       },
       publisher: {
         // Please do not make edits below
-        app_id: "LQbhYGRAz4Lvo84O",
-        pod: "sit1",
+        app_id: appID ?? "LQbhYGRAz4Lvo84O",
+        pod: pod ?? "sit1",
       },
     });
   };
@@ -41,7 +52,7 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         {data ? (
-          <code>{JSON.stringify(data, undefined, 1)}</code>
+          <textarea placeholder={JSON.stringify(data, undefined, 1)} readOnly />
         ) : (
           <img src={logo} className="App-logo" alt="logo" />
         )}
